@@ -1,0 +1,13 @@
+# IN PROGRESS
+
+# TODO finalize
+name: vsync
+dependencies:
+  - python=3.7
+  - decord
+  - numpy
+  - tqdm
+  - pip
+  - pip:
+      - pyqt5
+      - ffmpeg-python
