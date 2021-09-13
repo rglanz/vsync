@@ -7,6 +7,8 @@ dependencies:
   - decord
   - numpy
   - tqdm
+  - scipy
+  - ipython
   - pip
   - pip:
       - pyqt5

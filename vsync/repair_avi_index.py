@@ -12,6 +12,6 @@ video_output_path = str(video_path.parent / ('reindex_' + video_path.name))
 (
     ffmpeg
     .input(video_path)
-    .output(video_output_path,**{'map': 0}, **{'c': 'copy'})
+    .output(video_output_path, **{'map': 0}, **{'c': 'copy'})
     .run()
 )
