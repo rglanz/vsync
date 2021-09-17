@@ -4,12 +4,12 @@
 name: vsync
 dependencies:
   - python=3.7
-  - decord
   - numpy
   - tqdm
   - scipy
   - ipython
+  - matplotlib
   - pip
   - pip:
-      - pyqt5
       - ffmpeg-python
+      - opencv-python
