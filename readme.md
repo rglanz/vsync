@@ -1,4 +1,4 @@
-## vsync
+# vsync
 
 **The problem:** High-speed video acquisition often results in dropped frames.
 Moreover, recording video on one computer and collecting another type of data on
