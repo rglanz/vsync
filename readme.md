@@ -26,20 +26,20 @@ occasionally drops frames.
 
 ### Installation
 
-1. Clone the repository:
+1. Clone the repository
     > git clone https://github.com/rglanz/vsync.git
-
-2. Change directory to vsync folder:
+   
+2. Change directory to vsync folder
     > cd [path/to/folder]/vsync
 
 3. Create the virtual environment
     > conda env create -f environment.yaml
 
 ### Startup
-1. Activate *vsync* virtual environment:
+1. Activate *vsync* virtual environment
     > conda activate vsync   
 
-2. Change directory to vsync folder:
+2. Change directory to vsync folder
     > cd [path/to/folder]/vsync
 
 3. Activate ipython
@@ -49,22 +49,22 @@ occasionally drops frames.
     > import vsync
 
 ### Usage
-1. Define the video's path as a variable:
+1. Define the video's path as a variable
     > video_path = 'path/to/video.avi'      #macOS/Linux
     > 
     > video_path = r'path/to/video.avi'     #Windows
    
-2. Read the video (saves data to a .pkl file):
+2. Read the video (saves data to a .pkl file)
     > vsync.read_video(video_path)
 
 3. Analyze the video for dropped frames (interval is time between time-locking
-   stimuli; set to 3 seconds by default):
+   stimuli; set to 3 seconds by default)
     > vsync.find_dropped_frames(video_path, interval=3)
 
-4. Plot the results for quality control:
+4. Plot the results for quality control
     > vsync.plot_results(video_path)
 
-5. If the results are acceptable [*more detail coming soon*], align the video:
+5. If the results are acceptable [*more detail coming soon*], align the video
     > vsync.align_video(video_path)
 
 [*readme in progress*]
