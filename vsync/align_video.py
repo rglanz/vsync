@@ -35,6 +35,6 @@ def align_video(video_path):
         .filter_('setpts', filter_command)
         .trim(start_frame=first_stimulus)
         .trim(end_frame=corrected_video_length-len(dummy_frame_index))
-        .output(output_video_path, **{'r': frame_rate}, **{'vcodec': 'libx264'}, **{'crf': 16})
+        .output(output_video_path, **{'r': frame_rate}, **{'vcodec': 'libx264'}, **{'crf': 17})
         .run(overwrite_output=True)
     )

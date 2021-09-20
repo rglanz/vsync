@@ -71,6 +71,7 @@ def read_video(video_path):
     save_read_video(video_path, temp_video_path, roi, raw_values)
 
     # Delete temp video
+    video_object.release()
     try:
         os.remove(temp_video_path)
     except OSError:
