@@ -22,7 +22,6 @@ occasionally drops frames.
 
 ![alt text](/assets/vsync_icon.png?raw=true)
 
-[*readme in progress*]
 
 ### Installation
 
@@ -57,14 +56,37 @@ occasionally drops frames.
 2. Read the video (saves data to a .pkl file)
     > vsync.read_video(video_path)
 
-3. Analyze the video for dropped frames (interval is time between time-locking
+3. Analyze the video for dropped frames and plot results (interval is time between time-locking
    stimuli; set to 3 seconds by default)
-    > vsync.find_dropped_frames(video_path, interval=3)
+    > vsync.analyze_frames(video_path, interval=3)
 
-4. Plot the results for quality control
-    > vsync.plot_results(video_path)
-
-5. If the results are acceptable [*more detail coming soon*], align the video
+5. If the results are acceptable, align the video
     > vsync.align_video(video_path)
 
-[*readme in progress*]
+### Interpreting the plots
+![alt text](/assets/vsync_icon.png?raw=true)
+
+**Raw ROI Intensity**: This is the intensity of the ROI as a function of time (frames). 
+You should see a low, consistent level of baseline noise. The large, transitory spikes represent your
+stimulus presentation. If there are periods of disruptive noise, your ROI may not be selected properly, 
+or something in the video may have moved in front of your stimulus (not desirable). The red marker indicates
+the first detected stimulus presentation, to which the beginning of the video will be trimmed.
+
+**First Frame**: This is the frame representing the first stimulus presentation (e.g., an LED).
+You should see the stimulus, which should line up with the red marker in the previous plot.
+
+**Frame Interval**: This is a measure of the number of frames per interval (frame rate * interval rate). 
+You should occasionally see a single down-tick (a dropped frame). Regular frame drops indicate poor write-speed
+or a non-integer frame rate. Periods where multiple frames are dropped indicate major writing issues during 
+video collection, and the video should be discarded entirely.
+
+**Frame-drop Histogram**: As with the previous plot, there should only be single (or, very rarely, double),
+frame drops. Multiple stimulus intervals with multiple dropped frames cause the video to be unreliable, even if
+properly adjusted. Best practice is to discard the video from analysis.
+
+### Features under development
+* Interactive GUI
+
+* Function to manually readjust the stimulus detection threshold
+
+* Suppression of verbose ffmpeg output

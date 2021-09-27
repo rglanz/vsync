@@ -10,7 +10,7 @@ import matplotlib.pyplot as mpl
 import pickle
 
 
-def find_dropped_frames(video_path, interval=3):
+def analyze_frames(video_path, interval=3):
     # Load data
     pkl_path = str(Path(video_path).parent / (Path(video_path).stem + '.pkl'))
     data_dict = pickle.load(open(pkl_path, 'rb'))
@@ -52,6 +52,9 @@ def find_dropped_frames(video_path, interval=3):
     # Save data
     pickle.dump(data_dict, open(pkl_path, 'wb'))
 
+    # Plot results
+    plot_results(video_path)
+
 
 def plot_results(video_path):
     # Load data
@@ -62,22 +65,34 @@ def plot_results(video_path):
     frame_interval = data_dict['frame_interval']
     stimulus_interval = data_dict['stimulus_interval']
 
-    # Intensity vs. time
+    # Open plot
+    mpl.switch_backend('Qt5Agg')
     fig, ax = mpl.subplots(2, 2)
     fig.tight_layout()
+    fig_window = mpl.get_current_fig_manager()
+    fig_window.window.showMaximized()
+
+    # Intensity vs. time
     ax[0, 0].plot(raw_values)
     ax[0, 0].scatter(stimulus_onset[0], raw_values[stimulus_onset[0]]*1.02, \
                      c='r', marker='v')
-    ax[0, 0].title.set_text('Intensity')
+    ax[0, 0].set_ylabel('Intensity (0–255)')
+    ax[0, 0].set_xlabel('Frame #')
+    ax[0, 0].title.set_text('Raw ROI Intensity')
 
     # Frames vs. interval
     ax[1, 0].plot(frame_interval)
     ax[1, 0].set_ylim(stimulus_interval - 5, stimulus_interval*1.002)
+    ax[1, 0].set_ylabel('Frames per interval')
+    ax[1, 0].set_xlabel('Interval #')
     ax[1, 0].title.set_text('Frame Interval')
 
     # Frame-drop histogram
     ax[1, 1].hist(frame_interval - stimulus_interval, np.arange(-5, 0), align='right')
     ax[1, 1].set_yticks([])
+    ax[1, 1].set_xticks(np.arange(-5, 0))
+    ax[1, 1].set_ylabel('Frequency')
+    ax[1, 1].set_xlabel('# of dropped frames')
     ax[1, 1].title.set_text('Frame-drop Histogram')
 
     # First signal onset

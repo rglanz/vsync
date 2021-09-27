@@ -51,7 +51,7 @@ def read_video(video_path):
     roi = get_roi(video_path)
     temp_video_path = convert_video(video_path, roi)
 
-    print('Analyzing frames...', flush=True)
+    print('Reading frames...', flush=True)
     video_object = cv2.VideoCapture(temp_video_path)
     n_frames = video_object.get(cv2.CAP_PROP_FRAME_COUNT)
 
@@ -68,7 +68,7 @@ def read_video(video_path):
             break
 
     # Save pickle
-    save_read_video(video_path, temp_video_path, roi, raw_values)
+    save_video(video_path, temp_video_path, roi, raw_values)
 
     # Delete temp video
     video_object.release()
@@ -78,7 +78,7 @@ def read_video(video_path):
         pass
 
 
-def save_read_video(video_path, temp_video_path, roi, raw_values):
+def save_video(video_path, temp_video_path, roi, raw_values):
     # Save relevant data in pickle file
     data_dict = {}
     data_dict['video_path'] = video_path
