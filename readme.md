@@ -64,7 +64,7 @@ occasionally drops frames.
     > vsync.align_video(video_path)
 
 ### Interpreting the plots
-![alt text](/assets/vsync_icon.png?raw=true)
+![alt text](/assets/plot_example.png?raw=true)
 
 **Raw ROI Intensity**: This is the intensity of the ROI as a function of time (frames). 
 You should see a low, consistent level of baseline noise. The large, transitory spikes represent your
