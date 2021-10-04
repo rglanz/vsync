@@ -10,7 +10,7 @@ import matplotlib.pyplot as mpl
 import pickle
 
 
-def analyze_frames(video_path, interval=3):
+def find_dropped_frames(video_path, interval=3):
     # Load data
     pkl_path = str(Path(video_path).parent / (Path(video_path).stem + '.pkl'))
     data_dict = pickle.load(open(pkl_path, 'rb'))
@@ -52,9 +52,6 @@ def analyze_frames(video_path, interval=3):
     # Save data
     pickle.dump(data_dict, open(pkl_path, 'wb'))
 
-    # Plot results
-    plot_results(video_path)
-
 
 def plot_results(video_path):
     # Load data
@@ -74,8 +71,7 @@ def plot_results(video_path):
 
     # Intensity vs. time
     ax[0, 0].plot(raw_values)
-    ax[0, 0].scatter(stimulus_onset[0], raw_values[stimulus_onset[0]]*1.02, \
-                     c='r', marker='v')
+    ax[0, 0].scatter(stimulus_onset[0], raw_values[stimulus_onset[0]]*1.02, c='r', marker='v')
     ax[0, 0].set_ylabel('Intensity (0–255)')
     ax[0, 0].set_xlabel('Frame #')
     ax[0, 0].title.set_text('Raw ROI Intensity')
@@ -102,6 +98,5 @@ def plot_results(video_path):
     ax[0, 1].imshow(first_signal_frame)
     ax[0, 1].set_xticks([])
     ax[0, 1].set_yticks([])
-    ax[0, 1].title.set_text('First Frame')
 
     mpl.show()

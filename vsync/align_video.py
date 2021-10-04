@@ -1,12 +1,14 @@
 # This Python file uses the following encoding: utf-8
 
 # Imports
-import ffmpeg
 from pathlib import Path
 import pickle
+import subprocess
+import re
+from datetime import datetime
 
 
-def align_video(video_path):
+def align_video(video_path, pbar, label, app):
     # Load data
     pkl_path = str(Path(video_path).parent / (Path(video_path).stem + '.pkl'))
     data_dict = pickle.load(open(pkl_path, 'rb'))
@@ -19,22 +21,35 @@ def align_video(video_path):
     dummy_frame_index = data_dict['dummy_frame_index']
 
     # Filter command
-    filter_command = 'PTS+1/' + str(frame_rate) + '/TB*('   #TODO add in non-int frame rate rounding
+    cmd = 'ffmpeg -y -i "' + video_path + '"' +  " -vf setpts='PTS+1/" + str(frame_rate) + '/TB*('   #TODO add in non-int frame rate rounding
     for n_frame, frame_id in enumerate(dummy_frame_index):
         if n_frame == 0:
-            filter_command = filter_command + 'gte(N,' + str(frame_id - n_frame - 1) + ')'
+            cmd += 'gte(N,' + str(frame_id - n_frame - 1) + ')'
         else:
-            filter_command = filter_command + '+gte(N,' + str(frame_id - n_frame - 1) + ')'
+            cmd += '+gte(N,' + str(frame_id - n_frame - 1) + ')'
+    cmd += ")' -ss " + str(first_stimulus/frame_rate) + ' -t ' + str((corrected_video_length + first_stimulus)/frame_rate) + ' -r ' + str(frame_rate) + ' -c:v libxvid "' + output_video_path + '"'
 
-    filter_command = filter_command + ')'
+    print(cmd)
 
-    # Align video
-    (
-        ffmpeg
-        .input(video_path)
-        .filter_('setpts', filter_command)
-        .trim(start_frame=first_stimulus)
-        .trim(end_frame=corrected_video_length-len(dummy_frame_index))
-        .output(output_video_path, **{'r': frame_rate}, **{'vcodec': 'libx264'}, **{'crf': 17})
-        .run(overwrite_output=True)
-    )
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
+    for line in process.stdout:
+        print(line)
+        m = re.search('frame=.*?fps', line)
+        if m:
+            frame = int(m.group(0)[6:-3])
+            progress = round(100 * frame / corrected_video_length)
+            pbar.setValue(progress)
+            cur_speed_regex = re.search('speed=.*?x', line)
+            cur_speed = float(cur_speed_regex.group(0)[6:-1])
+            t_left = round((corrected_video_length - frame) / 100 / cur_speed)  # TODO: 100 should be frame rate, pass into func and correct
+            if t_left >= 0:  # Catch a weird edge case where things go negative
+                s_left = t_left % 60
+                t_left = (t_left - s_left) / 60
+                m_left = int(t_left % 60)
+                h_left = int((t_left - m_left) / 60)
+                label.setText(f"Time left: {h_left}h,{m_left}m,{s_left}s")
+            else:
+                label.setText(f"Time left: 0h,0m,0s")
+            label.adjustSize()
+            app.processEvents()
+    process.terminate()
