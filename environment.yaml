@@ -1,11 +1,8 @@
-# IN PROGRESS
-
-# TODO finalize
+# TODO validate list
 name: vsync
 dependencies:
   - python=3.7
   - numpy
-  - tqdm
   - scipy
   - ipython
   - matplotlib
