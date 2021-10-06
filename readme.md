@@ -41,27 +41,19 @@ occasionally drops frames.
 2. Change directory to vsync folder
     > cd [path/to/folder]/vsync
 
-3. Activate ipython
-    > ipython
+3. Launch GUI
+    > python startup.py
 
-4. Import vsync package
-    > import vsync
 
 ### Usage
-1. Define the video's path as a variable
-    > video_path = 'path/to/video.avi'      #macOS/Linux
-    > 
-    > video_path = r'path/to/video.avi'     #Windows
+0. Click 'Load Video' to begin
    
-2. Read the video (saves data to a .pkl file)
-    > vsync.read_video(video_path)
+1. Read the video (saves data to a .pkl file)
 
-3. Analyze the video for dropped frames and plot results (interval is time between time-locking
-   stimuli; set to 3 seconds by default)
-    > vsync.analyze_frames(video_path, interval=3)
+2. Confirm the LED interval (3.0 s by default) and plot the results
 
-5. If the results are acceptable, align the video
-    > vsync.align_video(video_path)
+3. If the results are acceptable, align the video
+
 
 ### Interpreting the plots
 ![alt text](/assets/plot_example.png?raw=true)
@@ -85,8 +77,10 @@ frame drops. Multiple stimulus intervals with multiple dropped frames cause the 
 properly adjusted. Best practice is to discard the video from analysis.
 
 ### Features under development
-* Interactive GUI
+* ~~Interactive GUI~~
 
 * Function to manually readjust the stimulus detection threshold
 
-* Suppression of verbose ffmpeg output
+* Integrated ROI selection function
+
+* Plot in main window

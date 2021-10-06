@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 
 from PyQt5.Qt import QApplication, Qt, QMainWindow, QFileDialog, QPixmap
 from PyQt5.QtWidgets import QWidget, QPushButton, QLabel, QLineEdit, QProgressBar, \
