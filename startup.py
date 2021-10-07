@@ -2,11 +2,13 @@
 
 from PyQt5.Qt import QApplication, Qt, QMainWindow, QFileDialog, QPixmap
 from PyQt5.QtWidgets import QWidget, QPushButton, QLabel, QLineEdit, QProgressBar, \
-                            QDesktopWidget, QGridLayout
+                            QDesktopWidget, QGridLayout, QMessageBox
 from PyQt5.QtGui import QImage
 import numpy as np
 import cv2
 import sys
+from pathlib import Path
+import pickle
 
 from read_video import VideoReader
 from diagnostics import Diagnostics
@@ -54,8 +56,8 @@ class VideoSync(QMainWindow):
 
         # Read pkl
         self.btn_readPkl = QPushButton('Read .pkl', self)
-        self.btn_readPkl.setEnabled(True)
-        """self.btn_readPkl.clicked.connect(self.[function_here])"""    # Write this function
+        self.btn_readPkl.setEnabled(False)
+        self.btn_readPkl.clicked.connect(self.load_data)
 
         ### Progress Bars ###
         self.pbar_readVid = QProgressBar(self)
@@ -111,7 +113,7 @@ class VideoSync(QMainWindow):
         self.setWindowTitle("vsync")
 
 
-    def file_dialog(self, event):
+    def file_dialog(self):
         if self.video_isLoaded:
             pass
         else:
@@ -131,24 +133,29 @@ class VideoSync(QMainWindow):
             self.video_isLoaded = True
 
 
-#TODO make this work
-"""    def hotkey_press(self, event):   
+    def load_data(self):
+        self.pkl_path = Path(self.video_path).parent / (Path(self.video_path).stem + '.pkl')
+        if self.pkl_path.is_file():
+            # Load data
+            self.data_dict = pickle.load(open(str(self.pkl_path), 'rb'))    #this code is not portable
+            self.btn_diag.setEnabled(True)
+        else:
+            message = QMessageBox()
+            message.setWindowTitle('vsync')
+            message.setText("No .pkl found.")
+            message.exec_()
+
+    def keyPressEvent(self, event):
         if event.key() == Qt.Key_0:
-            print('temp')   #TODO remove
-            self.file_dialog(self)
+            self.file_dialog()
         if event.key() == Qt.Key_1:
-            print('temp')
-            #function here
+            VideoReader.read_video(self)
         if event.key() == Qt.Key_2:
-            print('temp')
-            #function here
+            Diagnostics.__init__(self)
         if event.key() == Qt.Key_3:
-            print('temp')
-            #function here
+            VideoAligner.__init__(self)
         if event.key() == Qt.Key_R:
-            print('temp')
-            #function here
-"""
+            self.load_data()
 
 
 # Execute
