@@ -20,6 +20,7 @@ class Diagnostics:
 
     def find_dropped_frames(self):
         self.led_interval = int(float(self.textbox_led.text()))
+        self.frame_rate = self.data_dict['frame_rate']
         stimulus_interval = self.led_interval * self.frame_rate
 
         # Threshold

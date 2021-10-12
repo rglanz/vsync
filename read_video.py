@@ -104,6 +104,7 @@ class VideoReader:
         self.data_dict['video_path'] = self.video_path
         self.data_dict['temp_video_path'] = self.temp_video_path
         self.data_dict['roi'] = self.roi
+        self.data_dict['frame_rate'] = self.frame_rate
         self.data_dict['raw_values'] = self.raw_values
 
         self.pkl_path = str(Path(self.video_path).parent / (Path(self.video_path).stem + '.pkl'))
