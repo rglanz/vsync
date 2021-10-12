@@ -18,9 +18,9 @@ class VideoAligner:
         cmd = 'ffmpeg -y -i "' + self.video_path + '"' +  " -vf setpts='PTS+1/" + str(self.frame_rate) + '/TB*('   #TODO warn if rounding too much
         for n_frame, frame_id in enumerate(dummy_frame_index):
             if n_frame == 0:
-                cmd += 'gte(N\,' + str(frame_id - n_frame - 1) + ')'
+                cmd += 'gte(N\,' + str(frame_id - n_frame - 2) + ')'
             else:
-                cmd += '+gte(N\,' + str(frame_id - n_frame - 1) + ')'
+                cmd += '+gte(N\,' + str(frame_id - n_frame - 2) + ')'
         cmd += ")' -ss " + str(first_stimulus/self.frame_rate) + ' -t ' + str((corrected_video_length +
                     first_stimulus)/self.frame_rate) + ' -r ' + str(self.frame_rate) + \
                     ' -c:v libxvid "' + self.output_video_path + '"'

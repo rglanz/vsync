@@ -113,7 +113,7 @@ class VideoSync(QMainWindow):
         self.setWindowTitle("vsync")
 
 
-    def file_dialog(self):
+    def file_dialog(self, event):
         if self.video_isLoaded:
             pass
         else:
@@ -147,7 +147,7 @@ class VideoSync(QMainWindow):
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_0:
-            self.file_dialog()
+            self.file_dialog(event)
         if event.key() == Qt.Key_1:
             VideoReader.read_video(self)
         if event.key() == Qt.Key_2:
@@ -155,7 +155,7 @@ class VideoSync(QMainWindow):
         if event.key() == Qt.Key_3:
             VideoAligner.__init__(self)
         if event.key() == Qt.Key_R:
-            self.load_data()
+            self.load_data(event)
 
 
 # Execute
