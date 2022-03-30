@@ -10,9 +10,9 @@ import sys
 from pathlib import Path
 import pickle
 
-from read_video import VideoReader
-from diagnostics import Diagnostics
-from align_video import VideoAligner
+from src.read_video import VideoReader
+from src.diagnostics import Diagnostics
+from src.align_video import VideoAligner
 
 
 class VideoSync(QMainWindow):
